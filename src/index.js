@@ -1,7 +1,7 @@
 const pocketStyles = require('pocket-styles');
 import Paper from 'paper';
 
-export const CanvasCursor = (color, radius, fill) => {
+export const init = (color, radius, fill) => {
   const cursor = document.createElement('div');
   const cursor__canvas = document.createElement('canvas');
 
@@ -81,7 +81,6 @@ export const CanvasCursor = (color, radius, fill) => {
     const bounds = cursor__canvas.getBoundingClientRect();
     cursor__canvas.width = bounds.width;
     cursor__canvas.height = bounds.height;
-    console.log('yes');
   }
 
   function initCanvas() {
