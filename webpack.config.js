@@ -13,12 +13,12 @@ module.exports = {
       {
         test: /\.js$/,
         use: ['babel-loader'],
-      }
+      },
     ],
   },
   output: {
     path: __dirname + '/dist',
-    library: 'canvas-cursor',
+    library: 'CanvasCursor',
     libraryTarget: 'umd',
     filename: 'canvas-cursor.js',
   },

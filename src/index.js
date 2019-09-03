@@ -1,39 +1,40 @@
 const pocketStyles = require('pocket-styles');
-const Paper = require('paper');
+import Paper from 'paper';
 
-class CanvasCursor {
-  constructor(color, radius, fill) {
-    this.cursor = document.createElement('div');
-    this.cursor__canvas = document.createElement('canvas');
+const CanvasCursor = (color, radius, fill) => {
+  const cursor = document.createElement('div');
+  const cursor__canvas = document.createElement('canvas');
 
-    this.initStyles();
+  initStyles();
 
-    document.body.append(this.cursor, this.cursor__canvas);
+  document.body.append(cursor, cursor__canvas);
+  setBounds();
 
-    this.color = color || '#000';
-    this.radius = radius || 15;
-    this.fill = fill || false;
+  const chosenColor = color || '#000';
+  const chosenRadius = radius || 15;
+  const chosenFill = fill || false;
 
-    this.clientX = -100;
-    this.clientY = -100;
-    this.innerCursor = this.cursor;
-    this.initCursor();
+  let clientX = -100;
+  let clientY = -100;
+  let innerCursor = cursor;
+  initCursor();
 
-    this.lastX = 0;
-    this.lastY = 0;
-    this.showCursor = false;
-    this.group = null;
+  let lastX = 0;
+  let lastY = 0;
+  let group = null;
 
-    this.fillOuterCursor = null;
-    this.initCanvas();
-  }
+  initCanvas();
 
-  initStyles() {
+  window.addEventListener('resize', () => {
+    setBounds();
+  });
+
+  function initStyles() {
     pocketStyles.apply(document.body, {
       cursor: 'none',
     });
 
-    pocketStyles.apply(this.cursor, {
+    pocketStyles.apply(cursor, {
       position: 'fixed',
       left: '0',
       top: '0',
@@ -48,7 +49,7 @@ class CanvasCursor {
       background: '#000',
     });
 
-    pocketStyles.apply(this.cursor__canvas, {
+    pocketStyles.apply(cursor__canvas, {
       width: '100vw',
       height: '100vh',
       zIndex: '12000',
@@ -59,30 +60,37 @@ class CanvasCursor {
     });
   }
 
-  initCursor() {
+  function initCursor() {
     // add listener to track the current mouse position
     document.addEventListener('mousemove', e => {
-      this.clientX = e.clientX;
-      this.clientY = e.clientY;
+      clientX = e.clientX;
+      clientY = e.clientY;
     });
 
     // transform the innerCursor to the current mouse position
     // use requestAnimationFrame() for smooth performance
     const render = () => {
-      this.innerCursor.style.transform = `translate(${this.clientX}px, ${this.clientY}px)`;
+      innerCursor.style.transform = `translate(${clientX}px, ${clientY}px)`;
 
       requestAnimationFrame(render);
     };
     requestAnimationFrame(render);
   }
 
-  initCanvas() {
-    const canvas = this.cursor__canvas;
+  function setBounds() {
+    const bounds = cursor__canvas.getBoundingClientRect();
+    cursor__canvas.width = bounds.width;
+    cursor__canvas.height = bounds.height;
+    console.log('yes');
+  }
+
+  function initCanvas() {
+    const canvas = cursor__canvas;
     Paper.setup(canvas);
-    const strokeColor = this.color;
+    const strokeColor = chosenColor;
     const strokeWidth = 1;
     const segments = 6;
-    const radius = this.radius;
+    const radius = chosenRadius;
 
     // the base shape for the noisy circle
     const polygon = new Paper.Path.RegularPolygon(
@@ -91,11 +99,11 @@ class CanvasCursor {
       radius,
     );
     polygon.strokeColor = strokeColor;
-    polygon.fillColor = this.fill ? strokeColor : 'transparent';
+    polygon.fillColor = chosenFill ? strokeColor : 'transparent';
     polygon.strokeWidth = strokeWidth;
     polygon.smooth();
-    this.group = new Paper.Group([polygon]);
-    this.group.applyMatrix = false;
+    group = new Paper.Group([polygon]);
+    group.applyMatrix = false;
 
     // function for linear interpolation of values
     const lerp = (a, b, n) => {
@@ -117,11 +125,11 @@ class CanvasCursor {
       // coordinates per Frame
 
       // move circle around normally
-      this.lastX = lerp(this.lastX, this.clientX, 0.2);
-      this.lastY = lerp(this.lastY, this.clientY, 0.2);
-      this.group.position = new Paper.Point(this.lastX, this.lastY);
+      lastX = lerp(lastX, clientX, 0.2);
+      lastY = lerp(lastY, clientY, 0.2);
+      group.position = new Paper.Point(lastX, lastY);
     };
   }
-}
+};
 
 export default CanvasCursor;

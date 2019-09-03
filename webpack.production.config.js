@@ -18,7 +18,7 @@ module.exports = {
   },
   output: {
     path: __dirname + '/dist',
-    library: 'canvas-cursor',
+    library: 'CanvasCursor',
     libraryTarget: 'umd',
     filename: 'canvas-cursor.js',
   },
