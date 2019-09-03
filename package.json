@@ -1,0 +1,39 @@
+{
+    "name": "canvas-cursor",
+    "version": "1.0.0",
+    "description": "",
+    "main": "dist/canvas-cursor.js",
+    "files": [
+        "/dist"
+    ],
+    "scripts": {
+        "dev": "cross-env NODE_ENV=development webpack-dev-server",
+        "prod": "cross-env NODE_ENV=production webpack --config ./webpack.production.config.js",
+        "start": "cd dist && live-server --host=0.0.0.0"
+    },
+    "author": "Nicholas MacArthur",
+    "license": "MIT",
+    "devDependencies": {
+        "@babel/core": "^7.5.4",
+        "@babel/plugin-proposal-class-properties": "^7.5.5",
+        "@babel/plugin-proposal-optional-chaining": "^7.2.0",
+        "@babel/plugin-transform-destructuring": "^7.5.0",
+        "@babel/plugin-transform-parameters": "^7.4.4",
+        "@babel/preset-env": "^7.5.4",
+        "babel-loader": "^8.0.6",
+        "babel-plugin-transform-ternary-to-if-else": "^1.0.2",
+        "clean-webpack-plugin": "^3.0.0",
+        "compression-webpack-plugin": "^3.0.0",
+        "cross-env": "^5.2.0",
+        "html-webpack-plugin": "^3.2.0",
+        "uglifyjs-webpack-plugin": "^2.2.0",
+        "webpack": "^4.27.1",
+        "webpack-bundle-analyzer": "^3.3.2",
+        "webpack-cli": "^3.1.2",
+        "webpack-dev-server": "^3.1.1"
+    },
+    "dependencies": {
+        "paper": "^0.12.3",
+        "pocket-styles": "^0.1.1"
+    }
+}
